@@ -10,7 +10,7 @@ import { Modal } from './Modal/Modal';
 export const App = () => {
 
 const [arrayOfImages, setArrayOfImages] = useState([]);
-const [page, setPage] = useState(1);
+const [page,] = useState(1);
 const [quantityElements, setQuantityElements] = useState(12);
 const [isLoading, setIsLoading] = useState(false);
 const [inputValuee, setInputValuee] = useState('');
