@@ -11,7 +11,7 @@ export const App = () => {
 
 const [arrayOfImages, setArrayOfImages] = useState([]);
 const [page,] = useState(1);
-const [quantityElements, setQuantityElements] = useState(12);
+let [quantityElements, setQuantityElements] = useState(12);
 const [isLoading, setIsLoading] = useState(false);
 const [inputValuee, setInputValuee] = useState('');
 const [open, setOpen] = useState(false);
@@ -49,19 +49,10 @@ const [tagsImageToModal, setTagsImageToModal] = useState('');
       setIsLoading(false)
     }, 500);
     let inputValue = inputValuee;
-   setQuantityElements(quantityElements + 12);
-
-
-   setQuantityElements(quantityElements);
+   setQuantityElements(quantityElements += 12);
    fetchData(inputValue, page, quantityElements).then(resp => {
      setArrayOfImages([...resp.data.hits])
    })
-    // this.setState(prevState => {
-    //   quantityElements = prevState.quantityElements;
-    //   fetchData(inputValue, page, quantityElements).then(resp => {
-    //     this.setState({ arrayOfImages: [...resp.data.hits] });
-    //   });
-    // });
  };
   
   const modalClose = () => {
