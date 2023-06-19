@@ -8,80 +8,74 @@ import { Loader } from './Loader/Loader';
 import { Modal } from './Modal/Modal';
 
 export const App = () => {
-
-const [arrayOfImages, setArrayOfImages] = useState([]);
-const [page,] = useState(1);
-let [quantityElements, setQuantityElements] = useState(12);
-const [isLoading, setIsLoading] = useState(false);
-const [inputValuee, setInputValuee] = useState('');
-const [open, setOpen] = useState(false);
-const [imageSrcToModal, setImageSrcToModal] = useState('');;
-const [tagsImageToModal, setTagsImageToModal] = useState('');
- 
- const handleSubmit = e => {
+  const [arrayOfImages, setArrayOfImages] = useState([]);
+  const [page] = useState(1);
+  let [quantityElements, setQuantityElements] = useState(12);
+  const [isLoading, setIsLoading] = useState(false);
+  const [inputValuee, setInputValuee] = useState('');
+  const [open, setOpen] = useState(false);
+  const [imageSrcToModal, setImageSrcToModal] = useState('');
+  const [tagsImageToModal, setTagsImageToModal] = useState('');
+  const handleSubmit = e => {
     e.preventDefault();
-   const inputValue = e.target[1].value;
-   setIsLoading(true)
+    const inputValue = e.target[1].value;
+    setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
     }, 500);
     fetchData(inputValue, page, quantityElements).then(resp => {
       if (inputValue === '') {
         return null;
       }
-      setArrayOfImages([...resp.data.hits])
+      setArrayOfImages([...resp.data.hits]);
     });
   };
-  
   const settingInputValue = e => {
-    setInputValuee(e.target.value)
-  
+    setInputValuee(e.target.value);
   };
-
- const modalOpen = e => {
+  const modalOpen = e => {
     setImageSrcToModal(e.target.src);
-    setTagsImageToModal(e.target.alt)
-    setOpen(true)
- };
- const handlePagination = () => {
-    setIsLoading(true)
+    setTagsImageToModal(e.target.alt);
+    setOpen(true);
+  };
+  const handlePagination = () => {
+    setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false)
+      setIsLoading(false);
     }, 500);
     let inputValue = inputValuee;
-   setQuantityElements(quantityElements += 12);
-   fetchData(inputValue, page, quantityElements).then(resp => {
-     setArrayOfImages([...resp.data.hits])
-   })
- };
-  
+    setQuantityElements((quantityElements += 12));
+    fetchData(inputValue, page, quantityElements).then(resp => {
+      setArrayOfImages([...resp.data.hits]);
+    });
+  };
   const modalClose = () => {
-    setOpen(false)
+    setOpen(false);
   };
   return (
     <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gridGap: '16px',
-          paddingBottom: '24px',
-        }}
-      >
-    <Searchbar
-          submit={handleSubmit}
-          inputValue={settingInputValue}
-        />
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridGap: '16px',
+        paddingBottom: '24px',
+      }}
+    >
+      <Searchbar submit={handleSubmit} inputValue={settingInputValue} />
       <ImageGallery>
-        <ImageGalleryItem arrayOfImages={ arrayOfImages} modalOpen={modalOpen} />
+        <ImageGalleryItem arrayOfImages={arrayOfImages} modalOpen={modalOpen} />
       </ImageGallery>
       {arrayOfImages.length === 0 ? null : (
-          <Button pagination={handlePagination} />
+        <Button pagination={handlePagination} />
       )}
       <Loader isLoading={isLoading} />
-       {!open ? null : (
+      {!open ? null : (
         <Modal
-          imageSrcToModal={ imageSrcToModal} tagsImagetoModal={tagsImageToModal} modalClose={modalClose} />
-        )}
+          imageSrcToModal={imageSrcToModal}
+          tagsImagetoModal={tagsImageToModal}
+          modalClose={modalClose}
+        />
+      )}
     </div>
   );
 };
